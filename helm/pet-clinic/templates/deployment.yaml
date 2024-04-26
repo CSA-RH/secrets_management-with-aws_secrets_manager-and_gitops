@@ -35,11 +35,11 @@ spec:
           successThreshold: 1
           timeoutSeconds: 1
         ports:
-        - containerPort: {{ .Values.petclinic.containerPort1 }}
+        - containerPort: 8080
           protocol: TCP
-        - containerPort: {{ .Values.petclinic.containerPort2 }}
+        - containerPort: 8443
           protocol: TCP
-        - containerPort: {{ .Values.petclinic.containerPort3 }}
+        - containerPort: 8778
           protocol: TCP
         readinessProbe:
           failureThreshold: 3
@@ -48,6 +48,6 @@ spec:
             port: 8080
             scheme: HTTP
           initialDelaySeconds: 45
-          periodSeconds: 10
+          periodSeconds: 20
           successThreshold: 1
-          timeoutSeconds: 5
+          timeoutSeconds: 6

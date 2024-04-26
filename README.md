@@ -97,11 +97,6 @@ oc new-project ${NAMESPACE}
 oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
 ```
 
-- Give authorization to the namespace to call the bitnami API Group 
-> ####Moved to Git#####
-#oc adm policy add-role-to-user admin-sealedsecret system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller -n ${NAMESPACE}
-```
-
 - Before creating the application it is necessary to make a commit and push to the forked repository. 
 
 ```$bash

@@ -12,24 +12,22 @@ spec:
       labels:
         app: mysql
     spec:
-      serviceAccountName: mysa3
+      serviceAccountName: {{ .Values.serviceaccount.name }}
       containers:
         - name: mysql
           image: mysql:latest
           env:
-            - name: TEST_ENV
-              value: test
             - name: MYSQL_ROOT_PASSWORD
               value: root
             - name: MYSQL_DATABASE
               value: petclinic
             - name: MYSQL_USER
               value: petclinic
-            - name: MYSQL_PASSWORD
+            - name: MYSQL_PASSWORD          
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretprovider.secretName }}
-                  key: username
+                  key: password
           ports:
             - containerPort: 3306
           volumeMounts:
@@ -47,9 +45,7 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "azure-kvname"
-            nodePublishSecretRef:                       
-              name: secrets-store-creds
+              secretProviderClass: "aws-kvname"
 ---
 apiVersion: v1
 kind: Service
