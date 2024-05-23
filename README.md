@@ -42,7 +42,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 ## Detailed Procedure
 
 1. Clone the Git repository into your laptop
-?????git clone https://github.com/CSA-RH/helm-gitops-sscsi_secrets.git
+    - git clone https://github.com/CSA-RH/secrets_management-with-aws_secrets_manager-and_gitops.git
 
 2. Install GitOps in your ROSA cluster
     - https://docs.openshift.com/gitops/1.12/installing_gitops/installing-openshift-gitops.html
@@ -51,21 +51,22 @@ This repository's objective is to demonstrate the automatization of secrets mana
     1. Install procedure to install the community version:
         - https://access.redhat.com/documentation/en-us/red_hat_openshift_service_on_aws/4/html/tutorials/cloud-experts-aws-secret-manager
 
-??    2. The following additional steps are required if the SSCSI are required to create an K8s secret:
+??delete? Does not exist - dont seem to be needed??    2. The following additional steps are required if the SSCSI are required to create an K8s secret:
         - add cluster role
+            oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:csi-secrets-store:secrets-store-csi-driver
 
             ```$bash
-            oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:k8s-secrets-store-csi:secrets-store-csi-driver
+            #oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:k8s-secrets-store-csi:secrets-store-csi-driver
             ```
 
-        - create custom SCC
+?? Not sure if is neeeded -> test        - create custom SCC
             To allow usaging CSI volume and adding the capability "SETGID" (this capability as it is required by the MySQL DDBB Image).
 
             ```$bash
             oc apply -f clusterprimer/scc.yaml
             ```
 
-       - add role
+?? Not sure if is neeeded -> test       - add role
 
             ```$bash
             oc apply -f clusterprimer/ClusterRole_scc.yaml 
@@ -75,15 +76,8 @@ This repository's objective is to demonstrate the automatization of secrets mana
 ## Export Enviremont variables to your local laptop
 
 ```$bash
-export ASM_RESOURCE_GROUP=lmartinh-rgb6
-export ASM_NAME=lmartinh-vault-1
-export ASM_LOCATION=eastus
 export NAMESPACE=petclinic3
-export SECRET_NAME=demosecret4
-export ASM_VALUE=petclinic
 
-#Service Principal Key to access the Azure Key Vault 
-export ASM_SECRET_NAME=secrets-store-creds
 ```
 
 
@@ -95,14 +89,6 @@ oc new-project ${NAMESPACE}
 
 ```$bash
 oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
-```
-
-- Before creating the application it is necessary to make a commit and push to the forked repository. 
-
-```$bash
-git add *
-git commit -m "argocd sealed secrets"
-git push
 ```
 
 - Deploy the application in GitOps
@@ -124,7 +110,7 @@ spec:
       valueFiles:
       - values.yaml
     path:  helm/pet-clinic/
-    repoURL: https://github.com/CSA-RH/helm-gitops-sscsi_secrets.git
+    repoURL: https://github.com/CSA-RH/secrets_management-with-aws_secrets_manager-and_gitops.git
     targetRevision: HEAD
 EOF
 ```
