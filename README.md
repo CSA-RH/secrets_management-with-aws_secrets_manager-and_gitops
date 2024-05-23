@@ -51,23 +51,23 @@ This repository's objective is to demonstrate the automatization of secrets mana
     1. Install procedure to install the community version:
         - https://access.redhat.com/documentation/en-us/red_hat_openshift_service_on_aws/4/html/tutorials/cloud-experts-aws-secret-manager
 
-??delete? Does not exist - dont seem to be needed??    2. The following additional steps are required if the SSCSI are required to create an K8s secret:
+    2. The following additional steps are required if the SSCSI are required to create an K8s secret:
         - add cluster role
             oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:csi-secrets-store:secrets-store-csi-driver
 
             ```$bash
-            #oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:k8s-secrets-store-csi:secrets-store-csi-driver
+            ??delete? Does not exist - dont seem to be needed??     #oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:k8s-secrets-store-csi:secrets-store-csi-driver
             ```
 
-?? Not sure if is neeeded -> test        - create custom SCC
-            To allow usaging CSI volume and adding the capability "SETGID" (this capability as it is required by the MySQL DDBB Image).
+        - create custom SCC
+            ?? Not sure if is neeeded -> test      To allow usaging CSI volume and adding the capability "SETGID" (this capability as it is required by the MySQL DDBB Image).
 
             ```$bash
             oc apply -f clusterprimer/scc.yaml
             ```
 
-?? Not sure if is neeeded -> test       - add role
-
+        - add role
+            ?? Not sure if is neeeded -> test
             ```$bash
             oc apply -f clusterprimer/ClusterRole_scc.yaml 
             ```
