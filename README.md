@@ -53,9 +53,9 @@ This repository's objective is to demonstrate the automatization of secrets mana
 
     2. The following additional steps are required if the SSCSI are required to create an K8s secret:
         - add cluster role
+            ```$bash
             oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:csi-secrets-store:secrets-store-csi-driver
 
-            ```$bash
             ??delete? Does not exist - dont seem to be needed??     #oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:k8s-secrets-store-csi:secrets-store-csi-driver
             ```
 
