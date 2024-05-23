@@ -80,10 +80,7 @@ export NAMESPACE=petclinic3
 
 ```
 
-- The service account must be annotated to use the STS Role. Therefore the ROLE ARN must be provided by the AWS admin. To annotate, in my case I will use the Helm values:
-oc annotate -n $NAMESPACE serviceaccount $SERVICEACCOUNT_NAME \
-    eks.amazonaws.com/role-arn=$ROLE_ARN
-
+- Make sure to configure the Helm Chart values.yaml parameters: serviceaccount -> annotations, with the AWS Secret Manager secret Role ARN. Helm will add this Role ARN annotation to the ServiceAccount, so that the SA can be authenticated with the AWS Secret Manager service, by means of the STS token.  
 
 - Create namespace and add label to allow GitOps to manage the namespace
 
@@ -92,6 +89,7 @@ oc new-project ${NAMESPACE}
 ```
 
 ```$bash
+This is needed so that ARGOCD can manage K8s objects in the Namespace
 oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
 ```
 
