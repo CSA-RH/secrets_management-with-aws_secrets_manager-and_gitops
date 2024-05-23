@@ -51,7 +51,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
     1. Install procedure to install the community version:
         - https://access.redhat.com/documentation/en-us/red_hat_openshift_service_on_aws/4/html/tutorials/cloud-experts-aws-secret-manager
 
-    2. The following additional steps are required if the SSCSI are required to create an K8s secret:
+    2. The following additional steps are required if the SSCSI are required to create the K8s secrets:
         - add cluster role
             ```$bash
             oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:csi-secrets-store:secrets-store-csi-driver
@@ -79,6 +79,10 @@ This repository's objective is to demonstrate the automatization of secrets mana
 export NAMESPACE=petclinic3
 
 ```
+
+- The service account must be annotated to use the STS Role. Therefore the ROLE ARN must be provided by the AWS admin. To annotate, in my case I will use the Helm values:
+oc annotate -n $NAMESPACE serviceaccount $SERVICEACCOUNT_NAME \
+    eks.amazonaws.com/role-arn=$ROLE_ARN
 
 
 - Create namespace and add label to allow GitOps to manage the namespace
