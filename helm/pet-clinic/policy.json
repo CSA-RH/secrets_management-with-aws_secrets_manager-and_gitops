@@ -1,0 +1,11 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [{
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+      ],
+      "Resource": ["arn:aws:secretsmanager:eu-central-1:484081838892:secret:mysecret9-befHPr"]
+      }]
+}

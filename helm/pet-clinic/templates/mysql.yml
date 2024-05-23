@@ -24,6 +24,7 @@ spec:
             - name: MYSQL_USER
               value: petclinic
             - name: MYSQL_PASSWORD          
+#              value: petclinic
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretprovider.secretName }}
