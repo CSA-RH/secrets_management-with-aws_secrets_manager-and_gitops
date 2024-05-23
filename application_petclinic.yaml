@@ -13,5 +13,5 @@ spec:
       valueFiles:
       - values.yaml
     path:  helm/pet-clinic/
-    repoURL: https://github.com/CSA-RH/helm-gitops-sscsi_secrets.git
+    repoURL: https://github.com/CSA-RH/secrets_management-with-aws_secrets_manager-and_gitops.git
     targetRevision: HEAD
