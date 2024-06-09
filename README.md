@@ -38,7 +38,6 @@ This repository's objective is to demonstrate the automatization of secrets mana
     4. The developer creates a new Application in GitOps feeding the Git link of the application Helm chart  
 
 
-
 ## Detailed Procedure
 
 1. Clone the Git repository into your laptop
@@ -63,13 +62,13 @@ This repository's objective is to demonstrate the automatization of secrets mana
             ?? Not sure if is neeeded -> test      To allow usaging CSI volume and adding the capability "SETGID" (this capability as it is required by the MySQL DDBB Image).
 
             ```$bash
-            oc apply -f clusterprimer/scc.yaml
+            ??? oc apply -f clusterprimer/scc.yaml
             ```
 
         - add role
             ?? Not sure if is neeeded -> test
             ```$bash
-            oc apply -f clusterprimer/ClusterRole_scc.yaml 
+            ???? oc apply -f clusterprimer/ClusterRole_scc.yaml 
             ```
 
 # Demo: Developer creates a new application in GitOps:
