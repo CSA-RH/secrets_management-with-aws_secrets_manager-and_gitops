@@ -91,6 +91,22 @@ oc apply -f argocd/application_petclinic.yaml
 
 - Make sure to configure the Helm Chart values.yaml parameters: serviceaccount -> annotations, with the AWS Secret Manager secret Role ARN. Helm will add this Role ARN annotation to the ServiceAccount, so that the SA can be authenticated with the AWS Secret Manager service, by means of the STS token.  
 
+- How can I instruct to create a K8s Secret in addition to mount the secret retried as a volume in the POD? By configuring additional parameters in the SecretProviderClass. Example:
+
+    1. Add parameters to the SecretProviderClass
+    ```$bash
+
+    ```
+
+    2. Configure the POD manifest to consume the K8s secret
+    ```$bash
+            - name: MYSQL_PASSWORD          
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretprovider.secretName }}
+                  key: password
+    ```
+
 - The AWS Secret Manager saves the secret as a tuple (key:value). This means that the secret retrived from ACM and mounted in a POD volume, will have this format as well, i.e. key:value, exemple password:petclinic. If the application that has to consume this secret requires only the value this can be configured in the SecretProviderClass as follows:
 
     ```$bash
@@ -101,12 +117,12 @@ oc apply -f argocd/application_petclinic.yaml
 
     ![Alt text](./pics/acm_secret_format.png?raw=true "AWS Secret Manager Secret Format")
 
- - will contain So when the POD  either  but normally the applications require only the value.
-```$bash
-oc exec mysql-deployment-ffc755464-vpg5f -- cat /mnt/secrets-store/db_password
+    1. Adding the jmesPath option the secret mount content will save only the value of the ACM saved secret.
+        ```$bash
+        oc exec mysql-deployment-ffc755464-vpg5f -- cat /mnt/secrets-store/db_password
 
-petclinic
-```
+        petclinic
+        ```
 
 # To Delete the Application
 
