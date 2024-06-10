@@ -71,7 +71,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 - Create namespace
 
     ```$bash
-    export NAMESPACE=${NAMESPACE}
+    export NAMESPACE=petclinic3
     ```
 
     ```$bash
