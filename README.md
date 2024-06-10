@@ -49,8 +49,8 @@ This repository's objective is to demonstrate the automatization of secrets mana
 2. Install GitOps in your ROSA cluster
     - https://docs.openshift.com/gitops/1.12/installing_gitops/installing-openshift-gitops.html
 
-3. Integrate AWS Secret Manager with ROSA - Install SSCSI/Create a secret in AWS Secret Manager/configure policies to give ROSA permissions to access ASM 
-    1. Install procedure to install the community version:
+3. Integrate AWS Secret Manager with ROSA
+    1. Procedure to install the community version and create a  secret in AWS Secret Manager and configure policies to give ROSA permissions to access ASM:
         - https://access.redhat.com/documentation/en-us/red_hat_openshift_service_on_aws/4/html/tutorials/cloud-experts-aws-secret-manager
 
     2. The following additional step is required if the SSCSI has to create the K8s secret:
@@ -58,20 +58,11 @@ This repository's objective is to demonstrate the automatization of secrets mana
             ```$bash
             oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:csi-secrets-store:secrets-store-csi-driver
 
-            ??delete? Does not exist - dont seem to be needed??     #oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:k8s-secrets-store-csi:secrets-store-csi-driver
-            ```
-
     3. The following custom SCC is required by the MySQL image used that needs the SETGID capability. 
         - create custom SCC
 
             ```$bash
             oc apply -f clusterprimer/scc.yaml
-            ```
-
-        - add role
-            ?? Not sure if is neeeded -> test
-            ```$bash
-            ???? oc apply -f clusterprimer/ClusterRole_scc.yaml 
             ```
 
 # Demo: Developer creates a new application in GitOps:
