@@ -93,19 +93,24 @@ oc apply -f argocd/application_petclinic.yaml
 
 - How can I instruct to create a K8s Secret in addition to mount the secret retried as a volume in the POD? By configuring additional parameters in the SecretProviderClass. Example:
 
-    1. Add parameters to the SecretProviderClass
-    ```$bash
-
-    ```
+    1. Configure the SecretProviderClass
+        ```$bash
+          secretObjects:
+          - data:
+            - objectName: db_password
+              key: password
+            secretName: {{ .Values.secretprovider.secretName }}
+            type: Opaque
+        ```
 
     2. Configure the POD manifest to consume the K8s secret
-    ```$bash
+        ```$bash
             - name: MYSQL_PASSWORD          
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretprovider.secretName }}
                   key: password
-    ```
+        ```
 
 - The AWS Secret Manager saves the secret as a tuple (key:value). This means that the secret retrived from ACM and mounted in a POD volume, will have this format as well, i.e. key:value, exemple password:petclinic. If the application that has to consume this secret requires only the value this can be configured in the SecretProviderClass as follows:
 
