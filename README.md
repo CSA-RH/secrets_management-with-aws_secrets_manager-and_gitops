@@ -77,15 +77,15 @@ oc new-project ${NAMESPACE}
 -  Label namespace to allow ArgoCD to manage the namespace
 This is needed so that ARGOCD can manage K8s objects in the Namespace
 
-```$bash
-oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
-```
+    ```$bash
+    oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
+    ```
 
 - Deploy the application in ArgoCD
 
-```$bash
-oc apply -f argocd/application_petclinic.yaml
-```
+    ```$bash
+    oc apply -f argocd/application_petclinic.yaml
+    ```
 
 ## Notes
 
@@ -114,15 +114,20 @@ oc apply -f argocd/application_petclinic.yaml
 
 - The AWS Secret Manager saves the secret as a tuple (key:value). This means that the secret retrived from ACM and mounted in a POD volume, will have this format as well, i.e. key:value, exemple password:petclinic. If the application that has to consume this secret requires only the value this can be configured in the SecretProviderClass as follows:
 
-    ```$bash
-          jmesPath:
-            - path: password
-              objectAlias: db_password
-    ```
+    1. Configure the SecretProviderClass with the parameter jmesPath.
 
-    ![Alt text](./pics/acm_secret_format.png?raw=true "AWS Secret Manager Secret Format")
+        ```$bash
+              jmesPath:
+                - path: password
+                  objectAlias: db_password
+        ```
 
-    1. Adding the jmesPath option the secret mount content will save only the value of the ACM saved secret.
+    2. Example of ASM were it shows the Secret tuple 
+  
+        ![Alt text](./pics/acm_secret_format.png?raw=true "AWS Secret Manager Secret Format")
+
+    3. Adding the jmesPath option the POD secret mount content will only contain the value of the ACM secret:
+
         ```$bash
         oc exec mysql-deployment-ffc755464-vpg5f -- cat /mnt/secrets-store/db_password
 
