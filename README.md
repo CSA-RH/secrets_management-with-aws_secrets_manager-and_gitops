@@ -70,9 +70,13 @@ This repository's objective is to demonstrate the automatization of secrets mana
 
 - Create namespace
 
-```$bash
-oc new-project ${NAMESPACE}
-```
+    ```$bash
+    export NAMESPACE=${NAMESPACE}
+    ```
+
+    ```$bash
+    oc new-project ${NAMESPACE}
+    ```
 
 -  Label namespace to allow ArgoCD to manage the namespace
 This is needed so that ARGOCD can manage K8s objects in the Namespace
