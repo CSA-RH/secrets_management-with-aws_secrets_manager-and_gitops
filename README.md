@@ -2,14 +2,14 @@
 # Automatic Secrets Management in ArgoCD with AWS Secrets Manager and Secrets Storage CSI Driver
 
 # Disclaimer
-This repo contains an opinionated demo and is NOT an official Red Hat recommendation.
+This repo contains an opinionated demo and is NOT an official Red Hat documentation.
 
 # Introduction
 
 This repository's objective is to demonstrate the automatization of secrets management with ArgoCD using the AWS Secrets Manager and Secret Storage CSI Driver (SSCSI) in ARO.
 
 ## This repo is using the following tecnologies:
-- GitOps/ArgoCD
+- ArgoCD
 - Helm
 - Secrets Storage CSI Driver (SSCSI)
 - AWS Secrets Manager (ASM)
@@ -22,7 +22,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 - SSCSI by default mounts the retrived ASMv secrets retrived as a volume in the pods, nonetheless we have an additional requirement to mount as a K8s secret as well (details bellow). 
 
 # SSCSI Flow
-![Alt text](./pics/sscsi_flow.png?raw=true "SSCSI ") 
+![Alt text](./pics/sscsi_flow1.png?raw=true "SSCSI ") 
 
 
 # Procedure:
@@ -68,18 +68,20 @@ This repository's objective is to demonstrate the automatization of secrets mana
 
 # Demo: Deploy Workload with ARGOCD
 
-- Create namespace and add label to allow GitOps to manage the namespace
+- Create namespace
 
 ```$bash
 oc new-project ${NAMESPACE}
 ```
 
-```$bash
+-  Label namespace to allow ArgoCD to manage the namespace
 This is needed so that ARGOCD can manage K8s objects in the Namespace
+
+```$bash
 oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
 ```
 
-- Deploy the application in GitOps
+- Deploy the application in ArgoCD
 
 ```$bash
 oc apply -f argocd/application_petclinic.yaml
@@ -89,8 +91,22 @@ oc apply -f argocd/application_petclinic.yaml
 
 - Make sure to configure the Helm Chart values.yaml parameters: serviceaccount -> annotations, with the AWS Secret Manager secret Role ARN. Helm will add this Role ARN annotation to the ServiceAccount, so that the SA can be authenticated with the AWS Secret Manager service, by means of the STS token.  
 
+- The AWS Secret Manager saves the secret as a tuple (key:value). This means that the secret retrived from ACM and mounted in a POD volume, will have this format as well, i.e. key:value, exemple password:petclinic. If the application that has to consume this secret requires only the value this can be configured in the SecretProviderClass as follows:
 
+```$bash
+          jmesPath:
+            - path: password
+              objectAlias: db_password
+```
 
+![Alt text](./pics/acm_secret_format.png?raw=true "AWS Secret Manager Secret Format")
+
+    - will contain So when the POD  either  but normally the applications require only the value.
+```$bash
+oc exec mysql-deployment-ffc755464-vpg5f -- cat /mnt/secrets-store/db_password
+
+petclinic
+```
 
 # To Delete the Application
 
