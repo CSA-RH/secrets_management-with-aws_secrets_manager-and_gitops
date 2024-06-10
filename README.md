@@ -21,6 +21,9 @@ This repository's objective is to demonstrate the automatization of secrets mana
 - SSCSI is authenticated against the ASM using STS
 - SSCSI by default mounts the retrived ASMv secrets retrived as a volume in the pods, nonetheless we have an additional requirement to mount as a K8s secret as well (details bellow). 
 
+# SSCSI High Level Flow
+![Alt text](./pics/sscsi_high_level.drawio.png?raw=true "SSCSI ") 
+
 
 # Procedure:
 
@@ -59,10 +62,10 @@ This repository's objective is to demonstrate the automatization of secrets mana
             ```
 
         - create custom SCC
-            ?? Not sure if is neeeded -> test      To allow usaging CSI volume and adding the capability "SETGID" (this capability as it is required by the MySQL DDBB Image).
+            To allow usaging CSI volume and adding the capability "SETGID", SETGID capability is required by this MySQL DDBB Image.
 
             ```$bash
-            ??? oc apply -f clusterprimer/scc.yaml
+            oc apply -f clusterprimer/scc.yaml
             ```
 
         - add role
