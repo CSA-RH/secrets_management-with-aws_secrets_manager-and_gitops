@@ -22,7 +22,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 - SSCSI by default mounts the retrived ASMv secrets retrived as a volume in the pods, nonetheless we have an additional requirement to mount as a K8s secret as well (details bellow). 
 
 # SSCSI Flow
-![Alt text](./pics/sscsi_high_level.drawio.png?raw=true "SSCSI ") 
+![Alt text](./pics/sscsi_flow.png?raw=true "SSCSI ") 
 
 
 # Procedure:
