@@ -79,7 +79,6 @@ This repository's objective is to demonstrate the automatization of secrets mana
     ```
 
 -  Label namespace to allow ArgoCD to manage the namespace
-This is needed so that ARGOCD can manage K8s objects in the Namespace
 
     ```$bash
     oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
@@ -88,7 +87,25 @@ This is needed so that ARGOCD can manage K8s objects in the Namespace
 - Deploy the application in ArgoCD
 
     ```$bash
-    oc apply -f argocd/application_petclinic.yaml
+    cat <<EOF | oc apply -f -
+    apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: $NAMESPACE
+      namespace: openshift-gitops
+    spec:
+      destination:
+        namespace: $NAMESPACE
+        server: https://kubernetes.default.svc
+      project: default
+      source:
+        helm:
+          valueFiles:
+          - values.yaml
+        path:  helm/pet-clinic/
+        repoURL: https://github.com/CSA-RH/secrets_management-with-aws_secrets_manager-and_gitops.git
+        targetRevision: HEAD
+    EOF
     ```
 
 ## Notes
