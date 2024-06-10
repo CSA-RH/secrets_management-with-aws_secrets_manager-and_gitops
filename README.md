@@ -66,15 +66,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
             oc apply -f clusterprimer/scc.yaml
             ```
 
-# Demo: Developer creates a new application in GitOps:
-## Export Enviremont variables to your local laptop
-
-```$bash
-export NAMESPACE=petclinic3
-
-```
-
-- Make sure to configure the Helm Chart values.yaml parameters: serviceaccount -> annotations, with the AWS Secret Manager secret Role ARN. Helm will add this Role ARN annotation to the ServiceAccount, so that the SA can be authenticated with the AWS Secret Manager service, by means of the STS token.  
+# Demo: Deploy Workload with ARGOCD
 
 - Create namespace and add label to allow GitOps to manage the namespace
 
@@ -92,6 +84,13 @@ oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
 ```$bash
 oc apply -f argocd/application_petclinic.yaml
 ```
+
+## Notes
+
+- Make sure to configure the Helm Chart values.yaml parameters: serviceaccount -> annotations, with the AWS Secret Manager secret Role ARN. Helm will add this Role ARN annotation to the ServiceAccount, so that the SA can be authenticated with the AWS Secret Manager service, by means of the STS token.  
+
+
+
 
 # To Delete the Application
 
