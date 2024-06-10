@@ -1,4 +1,3 @@
-cat <<EOF | oc apply -f -
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -16,4 +15,3 @@ spec:
     path:  helm/pet-clinic/
     repoURL: https://github.com/CSA-RH/secrets_management-with-aws_secrets_manager-and_gitops.git
     targetRevision: HEAD
-EOF
