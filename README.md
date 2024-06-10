@@ -43,7 +43,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 
 ## Detailed Procedure
 
-1. Clone the Git repository into your laptop
+1. Clone this Git repository
     - git clone https://github.com/CSA-RH/secrets_management-with-aws_secrets_manager-and_gitops.git
 
 2. Install GitOps in your ROSA cluster
@@ -53,7 +53,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
     1. Install procedure to install the community version:
         - https://access.redhat.com/documentation/en-us/red_hat_openshift_service_on_aws/4/html/tutorials/cloud-experts-aws-secret-manager
 
-    2. The following additional steps are required if the SSCSI are required to create the K8s secrets:
+    2. The following additional step is required if the SSCSI has to create the K8s secret:
         - add cluster role
             ```$bash
             oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:csi-secrets-store:secrets-store-csi-driver
@@ -61,8 +61,8 @@ This repository's objective is to demonstrate the automatization of secrets mana
             ??delete? Does not exist - dont seem to be needed??     #oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:k8s-secrets-store-csi:secrets-store-csi-driver
             ```
 
+    3. The following custom SCC is required by the MySQL image used that needs the SETGID capability. 
         - create custom SCC
-            To allow usaging CSI volume and adding the capability "SETGID", SETGID capability is required by this MySQL DDBB Image.
 
             ```$bash
             oc apply -f clusterprimer/scc.yaml
