@@ -93,15 +93,15 @@ oc apply -f argocd/application_petclinic.yaml
 
 - The AWS Secret Manager saves the secret as a tuple (key:value). This means that the secret retrived from ACM and mounted in a POD volume, will have this format as well, i.e. key:value, exemple password:petclinic. If the application that has to consume this secret requires only the value this can be configured in the SecretProviderClass as follows:
 
-```$bash
+    ```$bash
           jmesPath:
             - path: password
               objectAlias: db_password
-```
+    ```
 
-![Alt text](./pics/acm_secret_format.png?raw=true "AWS Secret Manager Secret Format")
+    ![Alt text](./pics/acm_secret_format.png?raw=true "AWS Secret Manager Secret Format")
 
-    - will contain So when the POD  either  but normally the applications require only the value.
+ - will contain So when the POD  either  but normally the applications require only the value.
 ```$bash
 oc exec mysql-deployment-ffc755464-vpg5f -- cat /mnt/secrets-store/db_password
 
