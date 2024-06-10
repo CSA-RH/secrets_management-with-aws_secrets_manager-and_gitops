@@ -45,6 +45,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 
 1. Clone this Git repository
     - git clone https://github.com/CSA-RH/secrets_management-with-aws_secrets_manager-and_gitops.git
+    - cd secrets_management-with-aws_secrets_manager-and_gitops
 
 2. Install GitOps in your ROSA cluster
     - https://docs.openshift.com/gitops/1.12/installing_gitops/installing-openshift-gitops.html
@@ -89,25 +90,7 @@ oc label namespace ${NAMESPACE} argocd.argoproj.io/managed-by=openshift-gitops
 - Deploy the application in GitOps
 
 ```$bash
-cat <<EOF | oc apply -f -
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: $NAMESPACE
-  namespace: openshift-gitops
-spec:
-  destination:
-    namespace: $NAMESPACE
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    helm:
-      valueFiles:
-      - values.yaml
-    path:  helm/pet-clinic/
-    repoURL: https://github.com/CSA-RH/secrets_management-with-aws_secrets_manager-and_gitops.git
-    targetRevision: HEAD
-EOF
+oc apply -f argocd/application_petclinic.yaml
 ```
 
 # To Delete the Application
