@@ -6,9 +6,10 @@ This repo contains an opinionated demo and is NOT an official Red Hat documentat
 
 # Introduction
 
-This repository's objective is to demonstrate the automatization of secrets management with ArgoCD using the AWS Secrets Manager and Secret Storage CSI Driver (SSCSI) in ARO.
+This repository's objective is to demonstrate the automatization of secrets management with ArgoCD using the AWS Secrets Manager and Secret Storage CSI Driver (SSCSI) in ROSA.
 
 ## This repo is using the following tecnologies:
+- ROSA HCP or Classic Cluster
 - ArgoCD
 - Helm
 - Secrets Storage CSI Driver (SSCSI)
@@ -16,10 +17,9 @@ This repository's objective is to demonstrate the automatization of secrets mana
 
 
 # Requirements
-- ASM service will be used as the container of the secrets to be mounted in the pods.
+- ASM service will be used as the Vault container of the secrets.
 - SSCSI will retrieve the secrets from ASM and mount as a Volume to the pods and as well create a K8s secret that will be passed as a enviremont variable in the Pods manifests.
-- SSCSI is authenticated against the ASM using STS
-- SSCSI by default mounts the retrived ASMv secrets retrived as a volume in the pods, nonetheless we have an additional requirement to mount as a K8s secret as well (details bellow). 
+- OOTB SSCSI mounts the secrets retrived from ASM, as a volume mounted in the Pods.nonetheless we have an additional requirement to mount as a K8s Secret as well.
 
 # SSCSI Flow
 ![Alt text](./pics/sscsi_flow1.png?raw=true "SSCSI ") 
@@ -37,8 +37,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 
 3. Add Secret to AWS Secret Manager
 
-4. Exercise: Developer creates a new application in GitOps:
-    4. The developer creates a new Application in GitOps feeding the Git link of the application Helm chart  
+4. Demo: Deploy Workload with ARGOCD  
 
 
 ## Detailed Procedure
@@ -50,7 +49,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 2. Install GitOps in your ROSA cluster
     - https://docs.openshift.com/gitops/1.12/installing_gitops/installing-openshift-gitops.html
 
-3. Integrate AWS Secret Manager with ROSA
+3. Integrate AWS Secret Manager with ROSA. Red Hat has an SSCSI Operator wich is Tech Preview though Im installing SSCSI Community Helm chart.
     1. Procedure to install the community version and create a  secret in AWS Secret Manager and configure policies to give ROSA permissions to access ASM:
         - https://access.redhat.com/documentation/en-us/red_hat_openshift_service_on_aws/4/html/tutorials/cloud-experts-aws-secret-manager
 
@@ -110,7 +109,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 
 ## Notes
 
-- Make sure to configure the Helm Chart values.yaml parameters: serviceaccount -> annotations, with the AWS Secret Manager secret Role ARN. Helm will add this Role ARN annotation to the ServiceAccount, so that the SA can be authenticated with the AWS Secret Manager service, by means of the STS token.  
+- Make sure to configure the Helm Chart values.yaml parameters: serviceaccount -> annotations, with the AWS Secret Manager secret Role ARN. Helm will add this Role ARN annotation to the ServiceAccount, so that the ServiceAccount can be authenticated with the AWS Secret Manager service.  
 
 - How can I instruct to create a K8s Secret in addition to mount the secret retried as a volume in the POD? By configuring additional parameters in the SecretProviderClass. Example:
 
