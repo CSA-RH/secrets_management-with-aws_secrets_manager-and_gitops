@@ -49,7 +49,7 @@ This repository's objective is to demonstrate the automatization of secrets mana
 2. Install GitOps in your ROSA cluster
     - https://docs.openshift.com/gitops/1.12/installing_gitops/installing-openshift-gitops.html
 
-3. Integrate AWS Secret Manager with ROSA. Red Hat has an SSCSI Operator wich is Tech Preview though Im installing SSCSI Community Helm chart.
+3. Integrate AWS Secret Manager with ROSA. Red Hat has an SSCSI Operator wich is Tech Preview though for this demo Im installing SSCSI Community Helm chart - Note the Community software is not supported by Red Hat.
     1. Procedure to install the community version and create a  secret in AWS Secret Manager and configure policies to give ROSA permissions to access ASM:
         - https://access.redhat.com/documentation/en-us/red_hat_openshift_service_on_aws/4/html/tutorials/cloud-experts-aws-secret-manager
 
