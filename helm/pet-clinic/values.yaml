@@ -8,10 +8,10 @@ service:
   type: ClusterIP
 secretprovider:
   secretName: demosecret4        # K8s secret object that should be created 
-  objectName: mysecret9          # Name of the secret created in AWS Secret Manager Vault
+  objectName: mysecret10          # Name of the secret created in AWS Secret Manager Vault
 crb:
   namespace: petclinic3
 serviceaccount:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::956323145778:role/openshift-access-to-mysecret9
+    eks.amazonaws.com/role-arn: arn:aws:iam::956323145778:role/openshift-access-to-mysecret10
   name: mysa3      #This is the SA allowed by AWS policy -> a diferent SA will not be able to fetch the secret from AWS Secret Manager
